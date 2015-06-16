@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/normalize.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/main.css")">
+
+    <script src="@Url.Content("~/Scripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js")"></script>
+</head>
+<body>
+    <div class="header-container">
+    </div>
+
+    <div class="main-container">
+        <div class="main wrapper clearfix">
+            @RenderBody()
+        </div> <!-- #main -->
+    </div> <!-- #main-container -->
+
+    <div class="footer-container">
+        <footer class="wrapper">
+            <h3>footer</h3>
+        </footer>
+    </div>
+
+    <script src="@Url.Content("~/Scripts/vendor/jquery-1.11.2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/main.js")"></script>
+</body>
+</html>
