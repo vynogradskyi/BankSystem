@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataArt.Test", "DataArt.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataArt.Test.Core", "DataArt.Test.Core\DataArt.Test.Core.csproj", "{A8DCE3C4-7B6E-4BCB-A8B2-9A146EF89376}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataArt.Test.Core.Test", "DataArt.Test.Core.Test\DataArt.Test.Core.Test.csproj", "{473BB6D0-4AA4-4D2B-A805-5234F87232D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,12 @@ Global
 		{A8DCE3C4-7B6E-4BCB-A8B2-9A146EF89376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8DCE3C4-7B6E-4BCB-A8B2-9A146EF89376}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8DCE3C4-7B6E-4BCB-A8B2-9A146EF89376}.Release|x64.ActiveCfg = Release|Any CPU
+		{473BB6D0-4AA4-4D2B-A805-5234F87232D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{473BB6D0-4AA4-4D2B-A805-5234F87232D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{473BB6D0-4AA4-4D2B-A805-5234F87232D4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{473BB6D0-4AA4-4D2B-A805-5234F87232D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{473BB6D0-4AA4-4D2B-A805-5234F87232D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{473BB6D0-4AA4-4D2B-A805-5234F87232D4}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
