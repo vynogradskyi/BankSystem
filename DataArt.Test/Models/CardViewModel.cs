@@ -1,8 +1,13 @@
-﻿namespace DataArt.Test.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DataArt.Test.Models
 {
     public class CardViewModel
     {
+        [Required]
         public string CardNumber { get; set; }
-        public int Pin { get; set; }
+        [Required]
+        [StringLength(4)]
+        public string Pin { get; set; }
     }
 }

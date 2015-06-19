@@ -1,7 +1,18 @@
-﻿
+﻿@model DataArt.Test.Models.CardViewModel
 @{
     ViewBag.Title = "EnterPin";
 }
 
-@Html.Label("Enter pin : ")
+@using (Html.BeginForm("EnterPin", "Authentication", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.CardNumber)
+    <br/>
+    @Html.ValueFor(m => m.CardNumber)
+    <br />
+    @Html.LabelFor(m=>m.Pin)
+    <br />
+    @Html.EditorFor(m => m.Pin)
+    <br />
+    <input type="submit" value="Confirm" />
+}
 

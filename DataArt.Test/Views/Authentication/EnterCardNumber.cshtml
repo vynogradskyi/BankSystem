@@ -1,8 +1,13 @@
-﻿@using System.Reflection.Emit
+﻿@model DataArt.Test.Models.CardViewModel
 
 @{
     ViewBag.Title = "EnterCardNumber";
 }
 
-
-@Html.Label("Enter card number : ")
+@using (Html.BeginForm("EnterCardNumber", "Authentication", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.CardNumber)
+    <br/>
+    @Html.EditorFor(m => m.CardNumber)
+    <input type="submit" value="Confirm" />
+}

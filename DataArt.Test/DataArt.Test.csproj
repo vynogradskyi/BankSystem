@@ -123,6 +123,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\Authentication\EnterPin.cshtml" />
     <Content Include="Views\Operations\Index.cshtml" />
+    <Content Include="Views\Authentication\Error.cshtml" />
+    <Content Include="Views\Operations\Balance.cshtml" />
+    <Content Include="Views\Operations\GetMoney.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -133,6 +136,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataArt.Test.Core\DataArt.Test.Core.csproj">
+      <Project>{A8DCE3C4-7B6E-4BCB-A8B2-9A146EF89376}</Project>
+      <Name>DataArt.Test.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
