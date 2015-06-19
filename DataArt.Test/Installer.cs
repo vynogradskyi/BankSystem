@@ -10,7 +10,6 @@ namespace DataArt.Test
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Install(new CoreInstaller());
             container.Register(Classes.FromThisAssembly().BasedOn<IController>().LifestyleTransient());
         }
     }
