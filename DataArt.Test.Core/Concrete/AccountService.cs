@@ -7,13 +7,13 @@ using DataArt.Test.Core.Domain;
 
 namespace DataArt.Test.Core.Concrete
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AccountService : IAccountService
     {
-        private readonly IProfileRepository _profileRepository;
+        private readonly IRepository<User> _repository;
 
-        public AuthenticationService(IProfileRepository profileRepository)
+        public AccountService(IRepository<User> repository)
         {
-            _profileRepository = profileRepository;
+            _repository = repository;
             var users = new List<User>
             {
                 new User
@@ -31,17 +31,17 @@ namespace DataArt.Test.Core.Concrete
                     Blocked = true
                 }
             };
-            _profileRepository.PopulateForTesting(users);
+            _repository.PopulateUsersForTesting(users);
         }
 
         public bool CheckCardExist(string cardNumber)
         {
-            return _profileRepository.Exists<User>(u => u.CardNumber == cardNumber);
+            return _repository.Exists(u => u.CardNumber == cardNumber);
         }
 
         public bool CheckCardNotBlocked(string number)
         {
-            var user = _profileRepository.Get<User>(u => u.CardNumber == number);
+            var user = _repository.Get(u => u.CardNumber == number);
             if (user == null) { throw new ArgumentException("CardNumber");}
             return !user.Blocked;
         }
@@ -49,12 +49,12 @@ namespace DataArt.Test.Core.Concrete
         public bool CheckPin(string cardNUmber, string pin)
         {
             var pinHashed = ToMd5(pin);
-            return _profileRepository.Exists<User>(u => u.CardNumber == cardNUmber && u.Pin == pinHashed);
+            return _repository.Exists(u => u.CardNumber == cardNUmber && u.Pin == pinHashed);
         }
 
         public User GetUser(string cardNumber)
         {
-            return _profileRepository.Get<User>(u => u.CardNumber == cardNumber);
+            return _repository.Get(u => u.CardNumber == cardNumber);
         }
 
         public static string ToMd5(string input)

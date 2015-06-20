@@ -2,7 +2,7 @@
 
 namespace DataArt.Test.Core.Abstract
 {
-    public interface IAuthenticationService
+    public interface IAccountService
     {
         bool CheckCardExist(string cardNumber);
         bool CheckCardNotBlocked(string number);

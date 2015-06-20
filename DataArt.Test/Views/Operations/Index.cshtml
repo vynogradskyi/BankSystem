@@ -3,6 +3,16 @@
     ViewBag.Title = "Index";
 }
 
+<span>
+    Hi, @User.Identity.Name
+</span>
+
+
+<a href="@Url.Action("Balance")">Balance</a>
+<a href="@Url.Action("GetMoney")">Withdraw money</a>
+<a href="@Url.Action("LogOut","Authentication")">Log out</a>
+
+
 
 
 

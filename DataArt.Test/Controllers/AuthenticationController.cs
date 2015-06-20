@@ -8,9 +8,9 @@ namespace DataArt.Test.Controllers
     [AllowAnonymous]
     public class AuthenticationController : Controller
     {
-        private readonly IAuthenticationService _service;
+        private readonly IAccountService _service;
 
-        public AuthenticationController(IAuthenticationService service)
+        public AuthenticationController(IAccountService service)
         {
             _service = service;
         }
@@ -61,6 +61,7 @@ namespace DataArt.Test.Controllers
             {
                 var user = _service.GetUser(card.CardNumber);
                 FormsAuthentication.SetAuthCookie(user.UserName, false);
+                Session["User"] = user;
                 return RedirectToAction("Index", "Operations");
             }
 
@@ -76,6 +77,13 @@ namespace DataArt.Test.Controllers
 
             return View();
 
+        }
+
+        [HttpGet]
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("EnterCardNumber");
         }
     }
 }
