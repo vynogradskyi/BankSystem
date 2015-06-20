@@ -21,6 +21,7 @@ namespace DataArt.Test
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            FiltersConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             MvcApplication.BootstrapContainer();
         }
     }

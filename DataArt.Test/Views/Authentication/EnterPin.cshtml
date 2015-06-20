@@ -7,7 +7,7 @@
 {
     @Html.LabelFor(m => m.CardNumber)
     <br/>
-    @Html.ValueFor(m => m.CardNumber)
+    @Html.TextBoxFor(m => m.CardNumber,new {@readonly = "readonly"})
     <br />
     @Html.LabelFor(m=>m.Pin)
     <br />

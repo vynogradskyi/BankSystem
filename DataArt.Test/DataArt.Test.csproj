@@ -47,6 +47,13 @@
     <Reference Include="Castle.Windsor.Mvc">
       <HintPath>..\packages\Castle.Windsor.Mvc.1.3.0.0\lib\net45\Castle.Windsor.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -102,6 +109,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FiltersConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
@@ -141,6 +149,10 @@
     <ProjectReference Include="..\DataArt.Test.Core\DataArt.Test.Core.csproj">
       <Project>{A8DCE3C4-7B6E-4BCB-A8B2-9A146EF89376}</Project>
       <Name>DataArt.Test.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataArt.Test.DAL\DataArt.Test.DAL.csproj">
+      <Project>{E9B5C048-121F-4716-BB02-A45C35D7401B}</Project>
+      <Name>DataArt.Test.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

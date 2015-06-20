@@ -49,6 +49,7 @@
     <Compile Include="Abstract\IOperationsService.cs" />
     <Compile Include="Abstract\IProfileRepository.cs" />
     <Compile Include="Concrete\AuthenticationService.cs" />
+    <Compile Include="Concrete\OperationsService.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

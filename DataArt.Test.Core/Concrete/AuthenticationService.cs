@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using DataArt.Test.Core.Abstract;
@@ -13,6 +14,24 @@ namespace DataArt.Test.Core.Concrete
         public AuthenticationService(IProfileRepository profileRepository)
         {
             _profileRepository = profileRepository;
+            var users = new List<User>
+            {
+                new User
+                {
+                    UserName = "Valentyn Vynogradskyi",
+                    CardNumber = "1111-1111-1111-1111".Replace("-",""),
+                    Pin = ToMd5("1234"),
+                    Blocked = false
+                },
+                new User
+                {
+                    UserName = "Fool",
+                    CardNumber = "1111-1111-1111-1112".Replace("-",""),
+                    Pin = ToMd5("1232"),
+                    Blocked = true
+                }
+            };
+            _profileRepository.PopulateForTesting(users);
         }
 
         public bool CheckCardExist(string cardNumber)

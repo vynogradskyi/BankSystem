@@ -5,6 +5,7 @@ using DataArt.Test.Models;
 
 namespace DataArt.Test.Controllers
 {
+    [AllowAnonymous]
     public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService _service;
@@ -24,9 +25,10 @@ namespace DataArt.Test.Controllers
         [HttpPost]
         public ActionResult EnterCardNumber(CardViewModel card)
         {
-            if (_service.CheckCardExist(card.CardNumber))
+            if (!_service.CheckCardExist(card.CardNumber))
             {
                 ModelState.AddModelError("CardNumber", "Card doesn't exist");
+                return View();
             }
 
             if (!_service.CheckCardNotBlocked(card.CardNumber))
@@ -40,16 +42,16 @@ namespace DataArt.Test.Controllers
         [HttpGet]
         public ActionResult EnterPin(string cardNumber)
         {
+            if (TempData[Redirected] == null || !(bool)TempData[Redirected]) return View("Error");//todo: message "direct invocation of EnterPin prohibited" 
             var isNotBlocked = _service.CheckCardNotBlocked(cardNumber);
             var card = new CardViewModel
             {
                 CardNumber = cardNumber
             };
             return TempData.ContainsKey(Redirected) &&
-                   (bool) TempData[Redirected] &&
                    isNotBlocked
                 ? View(card)
-                : View("Error"); //todo: message "direct invocation of EnterPin prohibited" || Card blocked
+                : View("Error"); //todo: Card blocked
         }
 
         [HttpPost]
