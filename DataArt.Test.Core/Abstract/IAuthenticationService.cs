@@ -7,6 +7,6 @@ namespace DataArt.Test.Core.Abstract
         bool CheckCardExist(string cardNumber);
         bool CheckCardNotBlocked(string number);
         bool CheckPin(string cardNUmber, string pin);
-        User GetUser(string cardNUmber);
+        User GetUser(string cardNumber);
     }
 }

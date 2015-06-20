@@ -7,6 +7,6 @@ namespace DataArt.Test.Core.Abstract
     public interface IProfileRepository
     {
         User Get<T>(Func<T, bool> predicate);
-        bool Exists(Func<User, bool> predicate);
+        bool Exists<T>(Func<T, bool> predicate);
     }
 }

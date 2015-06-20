@@ -1,4 +1,7 @@
-﻿using DataArt.Test.Core.Abstract;
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+using DataArt.Test.Core.Abstract;
 using DataArt.Test.Core.Domain;
 
 namespace DataArt.Test.Core.Concrete
@@ -14,22 +17,41 @@ namespace DataArt.Test.Core.Concrete
 
         public bool CheckCardExist(string cardNumber)
         {
-            throw new System.NotImplementedException();
+            return _profileRepository.Exists<User>(u => u.CardNumber == cardNumber);
         }
 
         public bool CheckCardNotBlocked(string number)
         {
-            throw new System.NotImplementedException();
+            var user = _profileRepository.Get<User>(u => u.CardNumber == number);
+            if (user == null) { throw new ArgumentException("CardNumber");}
+            return !user.Blocked;
         }
 
         public bool CheckPin(string cardNUmber, string pin)
         {
-            throw new System.NotImplementedException();
+            var pinHashed = ToMd5(pin);
+            return _profileRepository.Exists<User>(u => u.CardNumber == cardNUmber && u.Pin == pinHashed);
         }
 
-        public User GetUser(string cardNUmber)
+        public User GetUser(string cardNumber)
         {
-            throw new System.NotImplementedException();
+            return _profileRepository.Get<User>(u => u.CardNumber == cardNumber);
+        }
+
+        public static string ToMd5(string input)
+        {
+            // step 1, calculate MD5 hash from input
+            var md5 = MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hash = md5.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+            var sb = new StringBuilder();
+            foreach (var t in hash)
+            {
+                sb.Append(t.ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }

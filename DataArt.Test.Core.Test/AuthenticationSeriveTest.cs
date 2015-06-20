@@ -21,7 +21,7 @@ namespace DataArt.Test.Core.Test
                 //Assign
                 const string validCardNumber = "1111111111111111";
                 var repositoryMock = new Mock<IProfileRepository>();
-                repositoryMock.Setup(r => r.Get(u => u.CardNumber == validCardNumber)).Returns(new User { UserName = "John Doe" });
+                repositoryMock.Setup(r => r.Get(It.IsAny<Func<User, bool>>())).Returns(new User { UserName = "John Doe" });
                 container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
                 var service = container.Resolve<IAuthenticationService>();
                 //Act
@@ -39,7 +39,7 @@ namespace DataArt.Test.Core.Test
                 //Assign
                 const string invalidCardNumber = "1111111111111112";
                 var repositoryMock = new Mock<IProfileRepository>();
-                repositoryMock.Setup(r => r.Get(u => u.CardNumber == invalidCardNumber)).Returns<User>(null);
+                repositoryMock.Setup(r => r.Get(It.IsAny<Func<User, bool>>())).Returns<User>(null);
                 container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
                 var service = container.Resolve<IAuthenticationService>();
                 //Act
@@ -57,7 +57,7 @@ namespace DataArt.Test.Core.Test
                 //Assign
                 const string invalidCardNumber = "1111111111111112";
                 var repositoryMock = new Mock<IProfileRepository>();
-                repositoryMock.Setup(r => r.Exists(u => u.CardNumber == invalidCardNumber)).Returns(true);
+                repositoryMock.Setup(r => r.Exists(It.IsAny<Func<User, bool>>())).Returns(true);
                 container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
                 var service = container.Resolve<IAuthenticationService>();
                 //Act
@@ -75,11 +75,11 @@ namespace DataArt.Test.Core.Test
                 //Assign
                 const string validCardNumber = "1111111111111112";
                 var repositoryMock = new Mock<IProfileRepository>();
-                repositoryMock.Setup(r => r.Exists(u => u.CardNumber == validCardNumber)).Returns(false);
+                repositoryMock.Setup(r => r.Exists(It.IsAny<Func<User,bool>>())).Returns(false);
                 container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
                 var service = container.Resolve<IAuthenticationService>();
                 //Act
-                var resp = service.CheckCardExist(validCardNumber));
+                var resp = service.CheckCardExist(validCardNumber);
                 //Assert
                 Assert.IsFalse(resp);
             });
@@ -93,13 +93,16 @@ namespace DataArt.Test.Core.Test
                 //Assign
                 const string validCardNumber = "1111111111111112";
                 var repositoryMock = new Mock<IProfileRepository>();
-                repositoryMock.Setup(r => r.Exists(u => u.CardNumber == validCardNumber)).Returns(true);
+                repositoryMock.Setup(r => r.Get(It.IsAny<Func<User, bool>>())).Returns(new User()
+                {
+                    Blocked = false
+                });
                 container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
                 var service = container.Resolve<IAuthenticationService>();
                 //Act
-                var resp = service.CheckCardExist(validCardNumber));
+                var resp = service.CheckCardNotBlocked(validCardNumber);
                 //Assert
-                Assert.IsFalse(resp);
+                Assert.IsTrue(resp);
             });
         }
 
@@ -111,11 +114,52 @@ namespace DataArt.Test.Core.Test
                 //Assign
                 const string validCardNumber = "1111111111111112";
                 var repositoryMock = new Mock<IProfileRepository>();
-                repositoryMock.Setup(r => r.Exists(u => u.CardNumber == validCardNumber)).Returns(false);
+                repositoryMock.Setup(r => r.Get(It.IsAny<Func<User, bool>>())).Returns(new User()
+                {
+                    Blocked = true
+                });
                 container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
                 var service = container.Resolve<IAuthenticationService>();
                 //Act
-                var resp = service.CheckCardExist(validCardNumber));
+                var resp = service.CheckCardNotBlocked(validCardNumber);
+                //Assert
+                Assert.IsFalse(resp);
+            });
+        }
+
+        [Test]
+        public void CheckPin_WhenPinIsOk_ThenReturnsTrue_Test()
+        {
+            UsingContainer(container =>
+            {
+                //Assign
+                const string validCardNumber = "1111111111111112";
+                const string validPin = "dfasdfsdfasdfsadfsafsadfasd";
+                var repositoryMock = new Mock<IProfileRepository>();
+                repositoryMock.Setup(r => r.Exists(It.IsAny<Func<User, bool>>())).Returns(true);
+                container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
+                var service = container.Resolve<IAuthenticationService>();
+                //Act
+                var resp = service.CheckPin(validCardNumber, validPin);
+                //Assert
+                Assert.IsTrue(resp);
+            });
+        }
+
+        [Test]
+        public void CheckPin_WhenPinIsNotOk_ThenReturnsFalse_Test()
+        {
+            UsingContainer(container =>
+            {
+                //Assign
+                const string validCardNumber = "1111111111111112";
+                const string validPin = "dfasdfsdfasdfsadfsafsadfasd";
+                var repositoryMock = new Mock<IProfileRepository>();
+                repositoryMock.Setup(r => r.Exists(It.IsAny<Func<User, bool>>())).Returns(false);
+                container.Register(Component.For<IProfileRepository>().Instance(repositoryMock.Object));
+                var service = container.Resolve<IAuthenticationService>();
+                //Act
+                var resp = service.CheckPin(validCardNumber, validPin);
                 //Assert
                 Assert.IsFalse(resp);
             });
