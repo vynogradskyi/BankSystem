@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
 using DataArt.Test.Core.Abstract;
 using DataArt.Test.Core.Domain;
 using DataArt.Test.DAL.Contexts;
@@ -10,24 +11,17 @@ namespace DataArt.Test.DAL.Repository
 {
     public class Repository<T> : IRepository<T> where T : class, IHaveId
     {
-        public void PopulateUsersForTesting(List<User> users)
-        {
-            using (var ctx = new BankContext())
-            {
-                foreach (var user in ctx.Users)
-                {
-                    ctx.Users.Remove(user);
-                }
-                ctx.Users.AddRange(users);
-                ctx.SaveChanges();
-            }
-        }
 
-        public T Get(Func<T, bool> predicate)
+        public T Get(Func<T, bool> predicate, params string[] parameters)
         {
             using (var ctx = new BankContext())
             {
-                return ctx.Set<T>().Where(predicate).FirstOrDefault();
+                var res = ctx.Set<T>();
+                foreach (var p in parameters)
+                {
+                    res.Include(p);
+                }
+                return res.Where(predicate).FirstOrDefault();
             }
         }
 
@@ -62,6 +56,7 @@ namespace DataArt.Test.DAL.Repository
             using (var ctx = new BankContext())
             {
                 ctx.Entry(entity).State = EntityState.Modified;
+                ctx.Entry(entity).CurrentValues.SetValues(entity);
                 ctx.SaveChanges();
             }
         }

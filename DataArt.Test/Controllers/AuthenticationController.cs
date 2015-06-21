@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using DataArt.Test.Core.Abstract;
+using DataArt.Test.Core.Concrete;
 using DataArt.Test.Models;
 
 namespace DataArt.Test.Controllers
@@ -15,7 +16,6 @@ namespace DataArt.Test.Controllers
             _service = service;
         }
 
-        private const string Redirected = "IsRedirectedFromEnterCardNumber";
         [HttpGet]
         public ActionResult EnterCardNumber()
         {
@@ -27,31 +27,31 @@ namespace DataArt.Test.Controllers
         {
             if (!_service.CheckCardExist(card.CardNumber))
             {
-                ModelState.AddModelError("CardNumber", "Card doesn't exist");
+                ModelState.AddModelError("CardNumber", Strings.ErrorCardDoesntExist);
                 return View();
             }
 
             if (!_service.CheckCardNotBlocked(card.CardNumber))
             {
-                return View("Error");
+                return View(Strings.ErrorView);
             }
-            TempData[Redirected] = true;
+            TempData[Strings.Redirected] = true;
             return RedirectToAction("EnterPin", new {cardNumber = card.CardNumber});
         }
 
         [HttpGet]
         public ActionResult EnterPin(string cardNumber)
         {
-            if (TempData[Redirected] == null || !(bool)TempData[Redirected]) return View("Error");//todo: message "direct invocation of EnterPin prohibited" 
+            if (TempData[Strings.Redirected] == null || !(bool)TempData[Strings.Redirected]) return View(Strings.ErrorView);//todo: message "direct invocation of EnterPin prohibited" 
             var isNotBlocked = _service.CheckCardNotBlocked(cardNumber);
             var card = new CardViewModel
             {
                 CardNumber = cardNumber
             };
-            return TempData.ContainsKey(Redirected) &&
+            return TempData.ContainsKey(Strings.Redirected) &&
                    isNotBlocked
                 ? View(card)
-                : View("Error"); //todo: Card blocked
+                : View(Strings.ErrorView); //todo: Card blocked
         }
 
         [HttpPost]
@@ -61,7 +61,7 @@ namespace DataArt.Test.Controllers
             {
                 var user = _service.GetUser(card.CardNumber);
                 FormsAuthentication.SetAuthCookie(user.UserName, false);
-                Session["User"] = user;
+                Session[Strings.UserId] = user.Id;
                 return RedirectToAction("Index", "Operations");
             }
 
@@ -72,7 +72,7 @@ namespace DataArt.Test.Controllers
             }
             else
             {
-                return View("Error"); //todo: add message "Your card is blocked"
+                return View(Strings.ErrorView); //todo: add message "Your card is blocked"
             }
 
             return View();
