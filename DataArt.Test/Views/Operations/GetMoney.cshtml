@@ -1,7 +1,15 @@
-﻿
+﻿@model DataArt.Test.Models.GetMoneyViewModel
 @{
     ViewBag.Title = "GetMoney";
 }
 
 <h2>GetMoney</h2>
+<a href="@Url.Action("Index")">Back</a>
+@using (Html.BeginForm("GetMoney", "Operations", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Amount) 
+    @Html.EditorFor(m => m.Amount)
+    @Html.ValidationMessageFor(m => m.Amount)
+    <input type="submit" value="Confirm"/>
+}
 

@@ -1,0 +1,12 @@
+﻿@model DataArt.Test.Core.Domain.Operation
+@{
+    ViewBag.Title = "OperationResult";
+}
+
+<h2>OperationResult</h2>
+
+
+<span>Operation type : @Model.OperationType.ToString("D") | </span>
+<span>Operation success : @Model.Success | </span>
+<span>Operation time : @Model.PerformTime | </span>
+
