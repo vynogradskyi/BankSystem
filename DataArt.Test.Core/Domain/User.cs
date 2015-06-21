@@ -15,6 +15,9 @@ namespace DataArt.Test.Core.Domain
         public string Pin { get; set; }
         public double Balance { get; set; }
         public bool Blocked { get; set; }
-        public List<Operation> Operations { get; set; }
+        public ICollection<Operation> Operations { get; set; }
+        public int Atempts { get; set; }
+
+
     }
 }

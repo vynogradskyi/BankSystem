@@ -40,7 +40,7 @@ namespace DataArt.Test.Core.Test
                 var result = service.Balance(6);
                 //Assert
                 Assert.AreEqual(10000, result.Balance);
-                Assert.AreEqual(1, result.Operations.Count);
+                Assert.AreEqual(2, result.Operations.Count);
             });
         }
 
@@ -62,7 +62,7 @@ namespace DataArt.Test.Core.Test
                 //Act
                 var result = service.GetMoney(23, 1000);
                 //Assert
-                Assert.IsTrue(result);
+                Assert.IsTrue(result.Success);
             });
         }
 
@@ -84,7 +84,7 @@ namespace DataArt.Test.Core.Test
                 //Act
                 var result = service.GetMoney(23,100000);
                 //Assert
-                Assert.IsFalse(result);
+                Assert.IsFalse(result.Success);
             });
         }
     }

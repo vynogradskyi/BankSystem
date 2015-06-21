@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using DataArt.Test.Core.Abstract;
@@ -14,24 +13,6 @@ namespace DataArt.Test.Core.Concrete
         public AccountService(IRepository<User> repository)
         {
             _repository = repository;
-            var users = new List<User>
-            {
-                new User
-                {
-                    UserName = "Valentyn Vynogradskyi",
-                    CardNumber = "1111-1111-1111-1111".Replace("-",""),
-                    Pin = ToMd5("1234"),
-                    Blocked = false
-                },
-                new User
-                {
-                    UserName = "Fool",
-                    CardNumber = "1111-1111-1111-1112".Replace("-",""),
-                    Pin = ToMd5("1232"),
-                    Blocked = true
-                }
-            };
-            _repository.PopulateUsersForTesting(users);
         }
 
         public bool CheckCardExist(string cardNumber)
@@ -46,10 +27,26 @@ namespace DataArt.Test.Core.Concrete
             return !user.Blocked;
         }
 
-        public bool CheckPin(string cardNUmber, string pin)
+        public bool CheckPin(string cardNumber, string pin)
         {
             var pinHashed = ToMd5(pin);
-            return _repository.Exists(u => u.CardNumber == cardNUmber && u.Pin == pinHashed);
+            var res = _repository.Exists(u => u.CardNumber == cardNumber && u.Pin == pinHashed);
+            if (!res)
+            {
+                UpadateAttemptOrBlockCard(cardNumber);
+            }
+            return res;
+        }
+
+        private void UpadateAttemptOrBlockCard(string cardNumber)
+        {
+            var user = _repository.Get(u => u.CardNumber == cardNumber);
+            if (user.Atempts >= 4)
+            {
+                user.Blocked = true;
+            }
+            user.Atempts++;
+            _repository.Update(user);
         }
 
         public User GetUser(string cardNumber)

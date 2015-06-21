@@ -50,7 +50,9 @@
     <Compile Include="Abstract\IOperationsService.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Concrete\AccountService.cs" />
+    <Compile Include="Concrete\MockData.cs" />
     <Compile Include="Concrete\OperationsService.cs" />
+    <Compile Include="Concrete\Strings.cs" />
     <Compile Include="Domain\Operation.cs" />
     <Compile Include="Domain\OperationType.cs" />
     <Compile Include="Domain\User.cs" />

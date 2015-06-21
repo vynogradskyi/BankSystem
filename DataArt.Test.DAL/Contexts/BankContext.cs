@@ -7,7 +7,7 @@ namespace DataArt.Test.DAL.Contexts
     {
         public BankContext():base("Name=ConnectionString1")
         {
-            
+            Database.SetInitializer(new BankContextInitializer());
         }
 
         public DbSet<User> Users { get; set; }
