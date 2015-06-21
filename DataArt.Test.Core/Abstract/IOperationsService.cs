@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using DataArt.Test.Core.Domain;
+﻿using DataArt.Test.Core.Domain;
 
 namespace DataArt.Test.Core.Abstract
 {
     public interface IOperationsService
     {
-        bool GetMoney(int amount);
-        IEnumerable<Operation> GetOperations(int userId);
+        bool GetMoney(int userId, int amount);
+        User Balance(int userId);
 
     }
 }

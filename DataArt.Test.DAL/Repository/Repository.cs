@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using DataArt.Test.Core.Abstract;
 using DataArt.Test.Core.Domain;
@@ -7,7 +8,7 @@ using DataArt.Test.DAL.Contexts;
 
 namespace DataArt.Test.DAL.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, IHaveId
     {
         public void PopulateUsersForTesting(List<User> users)
         {
@@ -42,15 +43,27 @@ namespace DataArt.Test.DAL.Repository
         {
             using (var ctx = new BankContext())
             {
-                var debug = ctx.Set<T>().Any(predicate);
                 return ctx.Set<T>().Any(predicate);
             }
         }
 
-        public void Add(T enity)
+        public void Add(T entity)
         {
-            
-            
+
+            using (var ctx = new BankContext())
+            {
+                ctx.Set<T>().Add(entity);
+                ctx.SaveChanges();
+            }
+        }
+
+        public void Update(T entity)
+        {
+            using (var ctx = new BankContext())
+            {
+                ctx.Entry(entity).State = EntityState.Modified;
+                ctx.SaveChanges();
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using DataArt.Test.Core.Abstract;
 using DataArt.Test.Core.Domain;
 
@@ -6,21 +6,32 @@ namespace DataArt.Test.Core.Concrete
 {
     public class OperationsService : IOperationsService
     {
-        private readonly IRepository<User> _repository;
+        private readonly IRepository<User> _profileRepository;
 
-        public OperationsService(IRepository<User> repository)
+        public OperationsService(IRepository<User> profileRepository)
         {
-            _repository = repository;
+            _profileRepository = profileRepository;
         }
 
-        public bool GetMoney(int amount)
+        public bool GetMoney(int userId, int amount)
         {
-            throw new System.NotImplementedException();
+            var user = _profileRepository.Get(u => u.Id == userId);
+            if (!(amount < user.Balance)) return false;
+            user.Balance = user.Balance - amount;
+            user.Operations.Add(new Operation
+            {
+                OperationType = OperationType.GetMoney,
+                PerformTime = DateTime.Now,
+                AdditionInformation = amount.ToString()
+            });
+            //Perform operation that withdraws money :))))
+            _profileRepository.Update(user);
+            return true;
         }
 
-        public IEnumerable<Operation> GetOperations(int userId)
+        public User Balance(int userId)
         {
-            throw new System.NotImplementedException();
+            return _profileRepository.Get(u => u.Id == userId);
         }
     }
 }
