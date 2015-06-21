@@ -1,7 +1,20 @@
-﻿
+﻿@model DataArt.Test.Core.Domain.User
 @{
     ViewBag.Title = "Balance";
 }
 
 <h2>Balance</h2>
+
+@Html.LabelFor(u => u.CardNumber) : @Html.ValueFor(u => u.CardNumber)
+@Html.LabelFor(u => u.UserName) : @Html.ValueFor(u => u.UserName)
+@Html.LabelFor(u => u.Balance) : @Html.ValueFor(u => u.Balance)
+<br/>
+<br/>
+@foreach (var op in Model.Operations)
+{
+    <span>Operation type : @op.OperationType.ToString("D") | </span>
+    <span>Operation success : @op.Success | </span>
+    <span>Operation time : @op.PerformTime | </span>
+    <br/>
+}
 
